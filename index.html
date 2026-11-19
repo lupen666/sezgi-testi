@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="Algı Testi" />
+  <meta name="theme-color" content="#0b0b0f" />
+  <title>Sezgi &amp; Algı Testi — 52 Kart</title>
+  <link rel="icon" href="icon.svg" type="image/svg+xml" />
+  <link rel="apple-touch-icon" href="icon.svg" />
+  <link rel="manifest" href="manifest.json" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="app-shell">
+    <!-- Üst Bar: Kamufle Başlık + Sağ Üst Gizli Tetikleyici Durum Noktası -->
+    <header class="top-bar">
+      <div class="brand-group">
+        <div class="brand-title-row">
+          <span class="brand-suit" id="brandSuit">♠</span>
+          <span class="brand-name" id="brandTitle">SEZGİ &amp; ALGI TESTİ</span>
+        </div>
+        <span class="brand-sub" id="brandSubtitle">52 Kart Sezgisel Seçim</span>
+      </div>
+
+      <div class="top-actions">
+        <button class="status-dot" id="statusDot" type="button" aria-label="Sistem Durumu" title="Senkron Aktif"></button>
+      </div>
+    </header>
+
+    <!-- Araç Şeridi: Mod Sekmeleri & Deste İkna/Karıştırma Butonları -->
+    <nav class="sub-toolbar" aria-label="Test Kontrolleri">
+      <div class="tab-switch" id="stageModeTabs">
+        <button class="tab-btn active" id="tabDeckBtn" type="button">Desteden Seç</button>
+        <button class="tab-btn" id="tabThoughtBtn" type="button">Düşünce Gir</button>
+      </div>
+      <div class="deck-controls" id="deckControls">
+        <button class="ghost-btn compact" id="convincerBtn" type="button">Desteyi Aç</button>
+        <button class="ghost-btn compact shuffle-action-btn" id="shuffleBtn" type="button">🔀 Karıştır</button>
+      </div>
+    </nav>
+
+    <!-- Ana Sahne -->
+    <main class="stage">
+      <!-- SAHNE 1A: Kaydırmalı 52'lik Lüks Deste -->
+      <section class="deck-stage" id="deckStage">
+        <p class="prompt-text" id="promptText">
+          Desteyi parmağınla kaydır, tüm kartları incele ve içinden geçen karta dokun.
+        </p>
+
+        <div class="shuffle-status hidden" id="shuffleStatus">
+          <span class="shuffle-dot"></span>
+          <span>Deste karıştırılıyor...</span>
+        </div>
+
+        <div class="deck-viewport" id="deckViewport">
+          <div class="deck-track" id="deckTrack"></div>
+        </div>
+
+        <!-- Özgür İrade İllüzyonu: 2 Aşamalı Seçim Onay Çubuğu -->
+        <div class="preselect-bar hidden" id="preselectBar">
+          <div class="preselect-info">
+            <span class="preselect-label">Seçilen Kart</span>
+            <strong class="preselect-pos" id="preselectPosLabel">#01</strong>
+            <span class="preselect-ask">İçinden geçen bu mu? İstersen değiştirebilirsin.</span>
+          </div>
+          <div class="preselect-actions">
+            <button class="ghost-btn" id="cancelPickBtn" type="button">Başka Seç</button>
+            <button class="primary-btn" id="confirmPickBtn" type="button">Kartıma Bak</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- SAHNE 1B: Düşünce Girişi (Invisible Deck / Zihin Mührü Kombo) -->
+      <section class="thought-stage hidden" id="thoughtStage">
+        <p class="prompt-text">
+          Aklından geçen herhangi bir iskambil kartını aşağıdan işaretle ve mühürle.
+        </p>
+
+        <div class="thought-panel">
+          <div class="picker-block">
+            <span class="picker-caption">1. Kart Türü</span>
+            <div class="suit-grid" id="thoughtSuitGrid">
+              <button class="suit-pick-btn active" data-suit="♠" type="button">♠ Maça</button>
+              <button class="suit-pick-btn is-red" data-suit="♥" type="button">♥ Kupa</button>
+              <button class="suit-pick-btn" data-suit="♣" type="button">♣ Sinek</button>
+              <button class="suit-pick-btn is-red" data-suit="♦" type="button">♦ Karo</button>
+            </div>
+          </div>
+
+          <div class="picker-block">
+            <span class="picker-caption">2. Kart Değeri</span>
+            <div class="rank-grid" id="thoughtRankGrid"></div>
+          </div>
+
+          <div class="thought-preview-row">
+            <span>Seçimin:</span>
+            <strong class="thought-preview-card" id="thoughtPreviewCard">♠ A</strong>
+          </div>
+
+          <button class="primary-btn full-width" id="sealThoughtBtn" type="button">
+            Düşüncemi Mühürle
+          </button>
+        </div>
+      </section>
+
+      <!-- SAHNE 2: 3D Kart Gösterimi + Ekrandan Çek (Swipe-Out Vanish) -->
+      <section class="reveal-stage hidden" id="revealStage">
+        <div class="reveal-meta-pill" id="revealMetaPill">Deste Sırası: #01</div>
+
+        <div class="vanish-banner hidden" id="vanishBanner">
+          ✨ Fiziksel Aktarım Tamamlandı — Kart Artık Masada
+        </div>
+
+        <div class="card-3d-scene" id="card3dScene">
+          <div class="card-3d" id="revealedCard">
+            <!-- Kartın Arka Yüzü (Güvenlik için varsayılan kapalı) -->
+            <div class="card-face card-back-face">
+              <div class="card-back-ornament">
+                <div class="back-corner-tl">♦</div>
+                <div class="back-corner-tr">♦</div>
+                <div class="back-medallion">
+                  <span class="back-emblem">♠</span>
+                </div>
+                <span class="back-hint-text">Görmek için basılı tut</span>
+                <div class="back-corner-bl">♦</div>
+                <div class="back-corner-br">♦</div>
+              </div>
+            </div>
+            <!-- Kartın Ön Yüzü -->
+            <div class="card-face card-front-face" id="revealedCardFront"></div>
+          </div>
+        </div>
+
+        <p class="reveal-hint" id="revealHint">
+          Kartı görmek için basılı tut; yukarı kaydırarak veya "Ekrandan Çek" ile masaya aktarabilirsin.
+        </p>
+
+        <div class="reveal-controls">
+          <div class="reveal-primary-row">
+            <button class="hold-peek-btn" id="holdPeekBtn" type="button">
+              👁️ Basılı Tutarak Gör
+            </button>
+            <button class="vanish-pull-btn" id="vanishPullBtn" type="button">
+              ✨ Ekrandan Çek
+            </button>
+          </div>
+          <div class="reveal-secondary-row">
+            <button class="ghost-btn" id="toggleRevealBtn" type="button">Açık Göster</button>
+            <button class="primary-btn" id="hideCardBtn" type="button">Zihnine Mühürle &amp; Kapat</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- SAHNE 3: Mühürlenmiş Bekleme & 3 Katmanlı Peek Ekranı -->
+      <section class="locked-stage hidden" id="lockedStage">
+        <div class="radar-container" id="radarContainer">
+          <span class="corner-beacon beacon-tl" data-suit="♠" aria-hidden="true"></span>
+          <span class="corner-beacon beacon-tr" data-suit="♥" aria-hidden="true"></span>
+          <span class="corner-beacon beacon-bl" data-suit="♣" aria-hidden="true"></span>
+          <span class="corner-beacon beacon-br" data-suit="♦" aria-hidden="true"></span>
+
+          <div class="pulse-ring">
+            <div class="radar-sweep"></div>
+            <span class="lock-suit">♠</span>
+          </div>
+        </div>
+
+        <h2 class="locked-title">Seçim Mühürlendi</h2>
+        <p class="locked-sub">
+          Telefonu yüzü yukarı bakacak şekilde masaya bırak ve seçtiğin karta odaklan.
+        </p>
+
+        <div class="bio-metrics-card">
+          <div class="bio-metric">
+            <span class="bio-label">SENKRON</span>
+            <strong class="bio-value" id="syncHzValue">1.01 Hz</strong>
+          </div>
+          <div class="bio-divider"></div>
+          <div class="bio-metric">
+            <span class="bio-label">ODAK DERİNLİĞİ</span>
+            <strong class="bio-value" id="focusDepthValue">%94</strong>
+          </div>
+        </div>
+
+        <button class="ghost-btn reset-btn" id="resetGameBtn" type="button">Yeni Tur Başlat</button>
+      </section>
+    </main>
+
+    <!-- Alt Bar: Katman 3 (OTURUM #XYY-RN) + 4 Hızlı Dokunuşla Gizli Panel Tetikleyicisi -->
+    <footer class="bottom-bar">
+      <button class="session-tag" id="sessionTag" type="button">OTURUM #SB-402</button>
+    </footer>
+  </div>
+
+  <!-- Gizli Siberbaz Kontrol Paneli -->
+  <div class="secret-modal hidden" id="secretModal" role="dialog" aria-modal="true" aria-labelledby="secretPanelTitle">
+    <div class="secret-sheet">
+      <div class="secret-header">
+        <h3 id="secretPanelTitle">♠ Siberbaz Kontrol Merkezi</h3>
+        <button class="close-x" id="closeSecretBtn" type="button" aria-label="Kapat">&times;</button>
+      </div>
+
+      <div class="secret-scroll">
+        <div class="secret-section">
+          <span class="section-label">Çalışma Modu</span>
+          <div class="mode-toggle three-col">
+            <button class="mode-btn active" data-mode="peek" id="modePeekBtn" type="button">👁️ Peek</button>
+            <button class="mode-btn" data-mode="force" id="modeForceBtn" type="button">🎯 Force</button>
+            <button class="mode-btn" data-mode="thought" id="modeThoughtBtn" type="button">🧠 Düşünce</button>
+          </div>
+        </div>
+
+        <div class="secret-section two-col-grid">
+          <label class="switch-card" for="autoDisarmToggle">
+            <div class="switch-text">
+              <strong>Tek Seferlik Force</strong>
+              <small>Seçimden sonra otomatik Peek'e düş</small>
+            </div>
+            <input type="checkbox" id="autoDisarmToggle" checked />
+          </label>
+
+          <label class="switch-card" for="sfxToggle">
+            <div class="switch-text">
+              <strong>Ses &amp; Titreşim</strong>
+              <small>Riffle deste &amp; kart efektleri</small>
+            </div>
+            <input type="checkbox" id="sfxToggle" checked />
+          </label>
+        </div>
+
+        <div class="secret-section">
+          <span class="section-label">Deste Dizilimi (ACAAN / Sıra Numarası)</span>
+          <div class="mode-toggle">
+            <button class="mode-btn active" data-stack="random" id="stackRandomBtn" type="button">🔀 Tam Rastgele</button>
+            <button class="mode-btn" data-stack="mnemonica" id="stackMnemonicaBtn" type="button">📜 Mnemonica (1-52)</button>
+          </div>
+        </div>
+
+        <div class="secret-section" id="forcePickerSection">
+          <span class="section-label">Force Edilecek Kart &amp; Hızlı Presetler</span>
+          <div class="preset-row">
+            <button class="preset-btn" data-suit="♠" data-rank="A" type="button">♠ As (Lupen)</button>
+            <button class="preset-btn" data-suit="♥" data-rank="Q" type="button">♥ Kız</button>
+            <button class="preset-btn" data-suit="♦" data-rank="7" type="button">♦ 7</button>
+            <button class="preset-btn" data-suit="♣" data-rank="J" type="button">♣ Vale</button>
+          </div>
+
+          <div class="force-touch-picker">
+            <div class="suit-grid compact" id="forceSuitGrid">
+              <button class="suit-pick-btn active" data-suit="♠" type="button">♠</button>
+              <button class="suit-pick-btn is-red" data-suit="♥" type="button">♥</button>
+              <button class="suit-pick-btn" data-suit="♣" type="button">♣</button>
+              <button class="suit-pick-btn is-red" data-suit="♦" type="button">♦</button>
+            </div>
+            <div class="rank-grid compact" id="forceRankGrid"></div>
+          </div>
+          <div class="selected-force-banner">
+            Hedef Force Kartı: <strong id="forceTargetSummary">♠ A</strong>
+          </div>
+        </div>
+
+        <div class="secret-section">
+          <label class="section-label" for="coverTitleSelect">Seyirci Kılıf Başlığı</label>
+          <select id="coverTitleSelect">
+            <option value="Sezgi &amp; Algı Testi">Sezgi &amp; Algı Testi (Önerilen)</option>
+            <option value="52 Kart Simülasyonu">52 Kart Simülasyonu</option>
+            <option value="Siberbaz Sahne">Siberbaz Sahne</option>
+          </select>
+        </div>
+
+        <div class="secret-section">
+          <div class="peek-guide">
+            <strong>⚡ Saniyelik Peek Okuma Kılavuzu:</strong><br />
+            1) <strong>Frekans (Uzaktan):</strong> <code>SENKRON: X.YY Hz</code> → <code>X</code> Tür, <code>YY</code> Değer.<br />
+            2) <strong>Köşe Noktası:</strong> Sol-Üst=<code>♠</code>, Sağ-Üst=<code>♥</code>, Sol-Alt=<code>♣</code>, Sağ-Alt=<code>♦</code>.<br />
+            3) <strong>Alt Kod:</strong> <code>OTURUM #XYY-RN</code> (son 2 hane sahte gürültü).<br />
+            <strong>Tür:</strong> <code>1=♠</code> · <code>2=♥</code> · <code>3=♣</code> · <code>4=♦</code> &nbsp;|&nbsp;
+            <strong>Değer:</strong> <code>01=As</code>, <code>11=J</code>, <code>12=Q</code>, <code>13=K</code>.<br />
+            <em>Örnek: <code>2.12 Hz</code> = <strong>♥ Kupa Kızı</strong></em>
+          </div>
+        </div>
+      </div>
+
+      <div class="secret-footer">
+        <button class="primary-btn full-width" id="saveSecretBtn" type="button">Kaydet &amp; Sahneye Dön</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>

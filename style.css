@@ -1,0 +1,1354 @@
+:root {
+  --bg: #07070a;
+  --velvet-mid: #140e16;
+  --velvet-glow: rgba(230, 57, 70, 0.14);
+  --gold-glow: rgba(255, 209, 102, 0.12);
+  --surface: rgba(20, 20, 28, 0.88);
+  --surface-2: #1f1f2c;
+  --text: #f7f6f2;
+  --muted: #a19fa8;
+  --accent: #e63946;
+  --gold: #ffd166;
+  --gold-deep: #b88b32;
+  --card-white: #fcfaf5;
+  --card-red: #c90c2b;
+  --card-black: #121319;
+  --border-subtle: rgba(255, 255, 255, 0.11);
+}
+
+* {
+  box-sizing: border-box;
+  -webkit-tap-highlight-color: transparent;
+  user-select: none;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  background:
+    radial-gradient(circle at 50% 18%, var(--velvet-glow) 0%, transparent 52%),
+    radial-gradient(circle at 50% 80%, var(--gold-glow) 0%, transparent 58%),
+    radial-gradient(ellipse at 50% 45%, #17121c 0%, var(--bg) 78%);
+  color: var(--text);
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", Roboto, sans-serif;
+  overflow: hidden;
+}
+
+.hidden {
+  display: none !important;
+}
+
+.app-shell {
+  display: flex;
+  flex-direction: column;
+  height: 100dvh;
+  padding: calc(env(safe-area-inset-top, 10px) + 6px) 14px calc(env(safe-area-inset-bottom, 10px) + 6px);
+  max-width: 560px;
+  margin: 0 auto;
+  position: relative;
+}
+
+/* Üst Bar (Glassmorphism) */
+.top-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 12px;
+  margin-bottom: 8px;
+  background: rgba(18, 18, 26, 0.65);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 209, 102, 0.14);
+  border-radius: 16px;
+}
+
+.brand-group {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.brand-title-row {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  font-size: 0.9rem;
+}
+
+.brand-suit {
+  color: var(--accent);
+  font-size: 1.15rem;
+  text-shadow: 0 0 10px rgba(230, 57, 70, 0.5);
+}
+
+.brand-sub {
+  font-size: 0.7rem;
+  color: var(--muted);
+  letter-spacing: 0.04em;
+}
+
+.top-actions {
+  display: flex;
+  align-items: center;
+}
+
+.status-dot {
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  background: transparent;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  padding: 0;
+}
+
+.status-dot::after {
+  content: "";
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: rgba(255, 209, 102, 0.6);
+  box-shadow: 0 0 10px rgba(255, 209, 102, 0.45);
+}
+
+/* Araç Şeridi */
+.sub-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  margin-bottom: 6px;
+  flex-wrap: wrap;
+}
+
+.tab-switch {
+  display: inline-flex;
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(8px);
+  border: 1px solid var(--border-subtle);
+  border-radius: 999px;
+  padding: 3px;
+}
+
+.tab-btn {
+  background: transparent;
+  color: var(--muted);
+  border: none;
+  border-radius: 999px;
+  padding: 6px 11px;
+  font-size: 0.76rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.15s ease, color 0.15s ease;
+}
+
+.tab-btn.active {
+  background: linear-gradient(135deg, rgba(255, 209, 102, 0.18), rgba(230, 57, 70, 0.18));
+  color: var(--text);
+}
+
+.deck-controls {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.ghost-btn {
+  background: rgba(255, 255, 255, 0.06);
+  color: var(--text);
+  border: 1px solid var(--border-subtle);
+  border-radius: 999px;
+  padding: 8px 14px;
+  font-size: 0.82rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: transform 0.15s ease, background 0.15s ease, border-color 0.15s ease;
+}
+
+.ghost-btn.compact {
+  padding: 6px 11px;
+  font-size: 0.75rem;
+}
+
+.ghost-btn.is-active {
+  border-color: var(--gold);
+  color: var(--gold);
+  background: rgba(255, 209, 102, 0.14);
+}
+
+.shuffle-action-btn {
+  border-color: rgba(255, 209, 102, 0.35);
+}
+
+.ghost-btn:active {
+  transform: scale(0.95);
+}
+
+.primary-btn {
+  background: linear-gradient(135deg, var(--accent), #a81424);
+  color: #fff;
+  border: none;
+  border-radius: 14px;
+  padding: 13px 20px;
+  font-size: 0.94rem;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: 0 8px 24px rgba(230, 57, 70, 0.34);
+  transition: transform 0.15s ease;
+}
+
+.primary-btn:active {
+  transform: scale(0.97);
+}
+
+.full-width {
+  width: 100%;
+}
+
+/* Ana Sahne */
+.stage {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  min-height: 0;
+}
+
+.prompt-text {
+  text-align: center;
+  color: var(--muted);
+  font-size: 0.88rem;
+  margin: 0 8px 10px;
+  line-height: 1.4;
+}
+
+/* Karıştırma Durum Etiketi */
+.shuffle-status {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  color: var(--gold);
+  background: rgba(255, 209, 102, 0.1);
+  border: 1px solid rgba(255, 209, 102, 0.35);
+  border-radius: 999px;
+  padding: 5px 14px;
+  animation: fadeIn 0.16s ease;
+}
+
+.shuffle-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--gold);
+  animation: pulse 0.7s infinite;
+}
+
+/* Sahne 1A: Lüks Yelpaze Deste */
+.deck-stage {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+
+.deck-viewport {
+  width: 100%;
+  overflow-x: auto;
+  overflow-y: visible;
+  padding: 32px 32px 22px;
+  scrollbar-width: none;
+  -webkit-overflow-scrolling: touch;
+}
+
+.deck-viewport::-webkit-scrollbar {
+  display: none;
+}
+
+.deck-track {
+  display: flex;
+  align-items: center;
+  padding-right: 42px;
+  perspective: 900px;
+}
+
+/* Shin Lim / Bicycle Artisan Altın Varaklı Kart Sırtı */
+.deck-card {
+  flex: 0 0 120px;
+  height: 178px;
+  margin-left: -72px;
+  border-radius: 14px;
+  background:
+    radial-gradient(circle at 50% 50%, rgba(255, 209, 102, 0.12), transparent 62%),
+    linear-gradient(155deg, #1d1a26 0%, #0d0d14 55%, #1a1118 100%);
+  border: 1.5px solid rgba(255, 209, 102, 0.48);
+  box-shadow:
+    -7px 12px 24px rgba(0, 0, 0, 0.65),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.05);
+  position: relative;
+  cursor: pointer;
+  transform-origin: bottom center;
+  transition: transform 0.24s cubic-bezier(0.22, 1, 0.36, 1), border-color 0.2s ease, box-shadow 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.deck-card:nth-child(odd) {
+  transform: rotate(-1.2deg);
+}
+
+.deck-card:nth-child(even) {
+  transform: rotate(1.2deg) translateY(2px);
+}
+
+.deck-card:first-child {
+  margin-left: 0;
+}
+
+.deck-card::before {
+  content: "";
+  position: absolute;
+  inset: 7px;
+  border-radius: 9px;
+  border: 1px solid rgba(255, 209, 102, 0.42);
+  background:
+    repeating-linear-gradient(
+      45deg,
+      rgba(255, 209, 102, 0.045) 0px,
+      rgba(255, 209, 102, 0.045) 2px,
+      transparent 2px,
+      transparent 8px
+    ),
+    repeating-linear-gradient(
+      -45deg,
+      rgba(230, 57, 70, 0.05) 0px,
+      rgba(230, 57, 70, 0.05) 2px,
+      transparent 2px,
+      transparent 8px
+    );
+  pointer-events: none;
+}
+
+.deck-card::after {
+  content: "";
+  position: absolute;
+  inset: 12px;
+  border-radius: 6px;
+  border: 1px dashed rgba(230, 57, 70, 0.45);
+  pointer-events: none;
+}
+
+.deck-card-inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.deck-card-medallion {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 209, 102, 0.55);
+  background: radial-gradient(circle, rgba(230, 57, 70, 0.22), rgba(15, 15, 22, 0.92));
+  box-shadow: 0 0 14px rgba(255, 209, 102, 0.16);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.deck-card-emblem {
+  font-size: 1.45rem;
+  color: var(--gold);
+  text-shadow: 0 0 8px rgba(255, 209, 102, 0.45);
+}
+
+.deck-pos-badge {
+  position: absolute;
+  top: 14px;
+  left: 14px;
+  font-size: 0.62rem;
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  color: rgba(255, 209, 102, 0.62);
+  background: rgba(0, 0, 0, 0.45);
+  padding: 2px 5px;
+  border-radius: 4px;
+}
+
+.deck-card.is-preselected {
+  transform: translateY(-28px) scale(1.07) rotate(0deg);
+  border-color: var(--gold);
+  box-shadow: 0 18px 34px rgba(255, 209, 102, 0.32), 0 0 18px rgba(230, 57, 70, 0.24);
+  z-index: 25;
+}
+
+/* 3 Aşamalı Karıştırma (Riffle Shuffle + Cascade Deal) Animasyonları */
+.deck-track.is-shuffling .deck-card.riffle-left {
+  animation: riffleLeft 0.34s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+.deck-track.is-shuffling .deck-card.riffle-right {
+  animation: riffleRight 0.34s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+.deck-track.is-shuffling .deck-card:nth-child(4n+1) { animation-delay: 0ms; }
+.deck-track.is-shuffling .deck-card:nth-child(4n+2) { animation-delay: 18ms; }
+.deck-track.is-shuffling .deck-card:nth-child(4n+3) { animation-delay: 36ms; }
+.deck-track.is-shuffling .deck-card:nth-child(4n+4) { animation-delay: 54ms; }
+
+.deck-track.is-dealing .deck-card {
+  animation: cascadeDeal 0.36s cubic-bezier(0.22, 1, 0.36, 1) backwards;
+}
+
+.deck-track.is-dealing .deck-card:nth-child(6n+1) { animation-delay: 0ms; }
+.deck-track.is-dealing .deck-card:nth-child(6n+2) { animation-delay: 25ms; }
+.deck-track.is-dealing .deck-card:nth-child(6n+3) { animation-delay: 50ms; }
+.deck-track.is-dealing .deck-card:nth-child(6n+4) { animation-delay: 75ms; }
+.deck-track.is-dealing .deck-card:nth-child(6n+5) { animation-delay: 100ms; }
+.deck-track.is-dealing .deck-card:nth-child(6n+6) { animation-delay: 125ms; }
+
+@keyframes riffleLeft {
+  0% { transform: translateX(0) translateY(0) rotate(-1deg); }
+  45% { transform: translateX(-18px) translateY(-26px) rotate(-11deg) scale(0.96); }
+  80% { transform: translateX(6px) translateY(-6px) rotate(3deg); }
+  100% { transform: translateX(0) translateY(0) rotate(0deg); }
+}
+
+@keyframes riffleRight {
+  0% { transform: translateX(0) translateY(0) rotate(1deg); }
+  45% { transform: translateX(18px) translateY(22px) rotate(11deg) scale(0.96); }
+  80% { transform: translateX(-6px) translateY(5px) rotate(-3deg); }
+  100% { transform: translateX(0) translateY(0) rotate(0deg); }
+}
+
+@keyframes cascadeDeal {
+  0% { opacity: 0.45; transform: translateX(-28px) translateY(14px) scale(0.92) rotate(-8deg); }
+  100% { opacity: 1; }
+}
+
+/* Yüzü Açık İkna (Convincer) Modu */
+.deck-track.convincer-open .deck-card {
+  margin-left: -44px;
+  background: var(--card-white);
+  border-color: rgba(0, 0, 0, 0.16);
+  color: var(--card-black);
+  transform: rotate(0deg);
+}
+
+.deck-track.convincer-open .deck-card:first-child {
+  margin-left: 0;
+}
+
+.deck-track.convincer-open .deck-card::before,
+.deck-track.convincer-open .deck-card::after {
+  display: none;
+}
+
+.deck-track.convincer-open .deck-card.is-red {
+  color: var(--card-red);
+}
+
+.convincer-face {
+  width: 100%;
+  height: 100%;
+  padding: 9px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.convincer-corner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 20px;
+  font-weight: 800;
+  font-size: 0.96rem;
+  line-height: 1;
+}
+
+.convincer-corner.bottom {
+  align-self: flex-end;
+  transform: rotate(180deg);
+}
+
+.convincer-center {
+  align-self: center;
+  font-size: 2.2rem;
+}
+
+/* Ön Seçim Barı */
+.preselect-bar {
+  width: 100%;
+  background: var(--surface);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 209, 102, 0.38);
+  border-radius: 16px;
+  padding: 12px 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  animation: fadeIn 0.2s ease;
+}
+
+.preselect-info {
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.preselect-label {
+  font-size: 0.78rem;
+  color: var(--muted);
+}
+
+.preselect-pos {
+  color: var(--gold);
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 0.95rem;
+}
+
+.preselect-ask {
+  font-size: 0.82rem;
+  color: var(--text);
+}
+
+.preselect-actions {
+  display: grid;
+  grid-template-columns: 1fr 1.4fr;
+  gap: 8px;
+}
+
+/* Sahne 1B: Düşünce Girişi */
+.thought-stage {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  animation: fadeIn 0.25s ease;
+}
+
+.thought-panel {
+  width: 100%;
+  background: var(--surface);
+  backdrop-filter: blur(10px);
+  border: 1px solid var(--border-subtle);
+  border-radius: 18px;
+  padding: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.picker-block {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.picker-caption {
+  font-size: 0.76rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--muted);
+}
+
+.suit-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 6px;
+}
+
+.suit-pick-btn {
+  background: var(--surface-2);
+  color: var(--text);
+  border: 1px solid var(--border-subtle);
+  border-radius: 10px;
+  padding: 10px 4px;
+  font-size: 0.84rem;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.suit-pick-btn.is-red {
+  color: #ff6b78;
+}
+
+.suit-pick-btn.active {
+  border-color: var(--gold);
+  background: rgba(255, 209, 102, 0.14);
+}
+
+.rank-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 6px;
+}
+
+.rank-grid.compact {
+  grid-template-columns: repeat(7, 1fr);
+}
+
+.rank-pick-btn {
+  background: var(--surface-2);
+  color: var(--text);
+  border: 1px solid var(--border-subtle);
+  border-radius: 9px;
+  padding: 9px 2px;
+  font-size: 0.84rem;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.rank-pick-btn.active {
+  border-color: var(--accent);
+  background: rgba(230, 57, 70, 0.22);
+  color: #fff;
+}
+
+.thought-preview-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: rgba(255, 255, 255, 0.04);
+  padding: 10px 14px;
+  border-radius: 12px;
+  font-size: 0.9rem;
+}
+
+.thought-preview-card {
+  font-size: 1.2rem;
+  color: var(--gold);
+}
+
+/* Sahne 2: 3D Gerçekçi İskambil Kartı Gösterimi */
+.reveal-stage {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  gap: 12px;
+  animation: fadeIn 0.25s ease;
+}
+
+.reveal-meta-pill {
+  font-size: 0.74rem;
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  color: var(--gold);
+  background: rgba(255, 209, 102, 0.1);
+  border: 1px solid rgba(255, 209, 102, 0.28);
+  padding: 4px 12px;
+  border-radius: 999px;
+}
+
+.vanish-banner {
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: var(--gold);
+  background: rgba(255, 209, 102, 0.14);
+  border: 1px solid rgba(255, 209, 102, 0.45);
+  border-radius: 12px;
+  padding: 8px 14px;
+  animation: fadeIn 0.18s ease;
+}
+
+.card-3d-scene {
+  perspective: 1100px;
+  touch-action: none;
+}
+
+.card-3d {
+  width: 204px;
+  height: 292px;
+  position: relative;
+  transform-style: preserve-3d;
+  transition: transform 0.46s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.38s ease;
+}
+
+.card-3d.is-flipped {
+  transform: rotateY(180deg);
+}
+
+.card-3d.is-vanishing {
+  animation: swipeOutVanish 0.46s cubic-bezier(0.32, 0, 0.67, 0) forwards;
+}
+
+@keyframes swipeOutVanish {
+  0% {
+    opacity: 1;
+    filter: brightness(1);
+  }
+  30% {
+    box-shadow: 0 0 42px rgba(255, 209, 102, 0.75);
+    filter: brightness(1.18);
+  }
+  100% {
+    transform: translateY(-145%) scale(0.76) rotate(-7deg);
+    opacity: 0;
+  }
+}
+
+.card-face {
+  position: absolute;
+  inset: 0;
+  border-radius: 18px;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  box-shadow: 0 22px 48px rgba(0, 0, 0, 0.72);
+}
+
+/* Lüks Altın Varaklı Kart Arka Yüzü */
+.card-back-face {
+  background:
+    radial-gradient(circle at 50% 50%, rgba(255, 209, 102, 0.14), transparent 64%),
+    linear-gradient(155deg, #1f1b29 0%, #0e0e16 58%, #1d1219 100%);
+  border: 2px solid rgba(255, 209, 102, 0.58);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 12px;
+}
+
+.card-back-ornament {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  border-radius: 11px;
+  border: 1px solid rgba(255, 209, 102, 0.45);
+  background:
+    repeating-linear-gradient(
+      45deg,
+      rgba(255, 209, 102, 0.045) 0px,
+      rgba(255, 209, 102, 0.045) 2px,
+      transparent 2px,
+      transparent 9px
+    ),
+    repeating-linear-gradient(
+      -45deg,
+      rgba(230, 57, 70, 0.05) 0px,
+      rgba(230, 57, 70, 0.05) 2px,
+      transparent 2px,
+      transparent 9px
+    );
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+}
+
+.back-corner-tl,
+.back-corner-tr,
+.back-corner-bl,
+.back-corner-br {
+  position: absolute;
+  font-size: 0.72rem;
+  color: rgba(255, 209, 102, 0.65);
+}
+
+.back-corner-tl { top: 8px; left: 10px; }
+.back-corner-tr { top: 8px; right: 10px; }
+.back-corner-bl { bottom: 8px; left: 10px; }
+.back-corner-br { bottom: 8px; right: 10px; }
+
+.back-medallion {
+  width: 68px;
+  height: 68px;
+  border-radius: 50%;
+  border: 1.5px solid rgba(255, 209, 102, 0.72);
+  background: radial-gradient(circle, rgba(230, 57, 70, 0.25), rgba(14, 14, 22, 0.96));
+  box-shadow: 0 0 22px rgba(255, 209, 102, 0.22);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.back-emblem {
+  font-size: 2.3rem;
+  color: var(--gold);
+}
+
+.back-hint-text {
+  font-size: 0.76rem;
+  color: var(--muted);
+  background: rgba(11, 11, 15, 0.7);
+  padding: 4px 10px;
+  border-radius: 999px;
+}
+
+/* Gerçek İskambil Ön Yüzü */
+.card-front-face {
+  transform: rotateY(180deg);
+  background: var(--card-white);
+  color: var(--card-black);
+  border: 1px solid rgba(0, 0, 0, 0.14);
+  padding: 12px 11px;
+  display: grid;
+  grid-template-columns: 24px 1fr 24px;
+  align-items: stretch;
+}
+
+.card-3d.is-red .card-front-face {
+  color: var(--card-red);
+}
+
+.card-corner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  line-height: 0.95;
+  font-weight: 800;
+  font-size: 1.25rem;
+  gap: 2px;
+}
+
+.card-corner-suit {
+  font-size: 1rem;
+}
+
+.card-corner.top {
+  align-self: start;
+}
+
+.card-corner.bottom {
+  align-self: end;
+  transform: rotate(180deg);
+}
+
+.card-artwork-area {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px 4px;
+  height: 100%;
+}
+
+/* 2..10 Gerçekçi Pip Izgarası (3x7) */
+.pip-grid {
+  width: 100%;
+  height: 100%;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(7, 1fr);
+  align-items: center;
+  justify-items: center;
+}
+
+.pip {
+  font-size: 1.55rem;
+  line-height: 1;
+}
+
+.pip.inv {
+  transform: rotate(180deg);
+}
+
+.r1-c1 { grid-row: 1; grid-column: 1; }
+.r1-c2 { grid-row: 1; grid-column: 2; }
+.r1-c3 { grid-row: 1; grid-column: 3; }
+.r2-c2 { grid-row: 2; grid-column: 2; }
+.r3-c1 { grid-row: 3; grid-column: 1; }
+.r3-c3 { grid-row: 3; grid-column: 3; }
+.r4-c1 { grid-row: 4; grid-column: 1; }
+.r4-c2 { grid-row: 4; grid-column: 2; }
+.r4-c3 { grid-row: 4; grid-column: 3; }
+.r5-c1 { grid-row: 5; grid-column: 1; }
+.r5-c3 { grid-row: 5; grid-column: 3; }
+.r6-c2 { grid-row: 6; grid-column: 2; }
+.r7-c1 { grid-row: 7; grid-column: 1; }
+.r7-c2 { grid-row: 7; grid-column: 2; }
+.r7-c3 { grid-row: 7; grid-column: 3; }
+
+/* As (Ace) Filigran Madalyonu */
+.ace-medallion {
+  width: 112px;
+  height: 146px;
+  border-radius: 14px;
+  border: 1.5px solid rgba(184, 139, 50, 0.55);
+  background: radial-gradient(circle, rgba(184, 139, 50, 0.1), transparent 72%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.ace-big-suit {
+  font-size: 4.5rem;
+  line-height: 1;
+}
+
+.ace-brand-mark {
+  font-size: 0.62rem;
+  font-weight: 800;
+  letter-spacing: 0.22em;
+  color: var(--gold-deep);
+}
+
+/* Saray Kartı (J / Q / K) Kraliyet Çerçevesi */
+.court-frame {
+  width: 100%;
+  height: 100%;
+  border: 1.5px solid currentColor;
+  border-radius: 10px;
+  padding: 8px 6px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  background:
+    linear-gradient(135deg, rgba(184, 139, 50, 0.12), transparent 45%),
+    linear-gradient(-45deg, rgba(184, 139, 50, 0.12), transparent 45%);
+  position: relative;
+}
+
+.court-frame::before {
+  content: "";
+  position: absolute;
+  inset: 3px;
+  border: 1px dashed rgba(184, 139, 50, 0.6);
+  border-radius: 7px;
+  pointer-events: none;
+}
+
+.court-crown {
+  width: 34px;
+  height: 22px;
+  fill: var(--gold-deep);
+}
+
+.court-crown.inv {
+  transform: rotate(180deg);
+}
+
+.court-center-emblem {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+}
+
+.court-suit {
+  font-size: 3rem;
+  line-height: 1;
+}
+
+.court-title {
+  font-size: 0.68rem;
+  font-weight: 800;
+  letter-spacing: 0.18em;
+  color: var(--gold-deep);
+}
+
+.reveal-hint {
+  color: var(--muted);
+  font-size: 0.8rem;
+  max-width: 320px;
+  margin: 0;
+  line-height: 1.35;
+}
+
+.reveal-controls {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.reveal-primary-row {
+  display: grid;
+  grid-template-columns: 1.35fr 1fr;
+  gap: 8px;
+}
+
+.hold-peek-btn {
+  width: 100%;
+  background: rgba(255, 209, 102, 0.14);
+  color: var(--gold);
+  border: 1px solid rgba(255, 209, 102, 0.45);
+  border-radius: 14px;
+  padding: 12px 10px;
+  font-size: 0.88rem;
+  font-weight: 700;
+  cursor: pointer;
+  touch-action: none;
+}
+
+.hold-peek-btn:active {
+  background: rgba(255, 209, 102, 0.25);
+}
+
+.vanish-pull-btn {
+  width: 100%;
+  background: linear-gradient(135deg, rgba(255, 209, 102, 0.24), rgba(230, 57, 70, 0.28));
+  color: var(--text);
+  border: 1px solid rgba(255, 209, 102, 0.55);
+  border-radius: 14px;
+  padding: 12px 10px;
+  font-size: 0.84rem;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.vanish-pull-btn:active {
+  transform: scale(0.97);
+}
+
+.reveal-secondary-row {
+  display: grid;
+  grid-template-columns: 1fr 1.6fr;
+  gap: 8px;
+}
+
+/* Sahne 3: Mühürlenmiş Bekleme & 3 Katmanlı Peek */
+.locked-stage {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  gap: 16px;
+  animation: fadeIn 0.28s ease;
+}
+
+.radar-container {
+  position: relative;
+  width: 136px;
+  height: 136px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.corner-beacon {
+  position: absolute;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.12);
+  transition: background 0.3s ease, box-shadow 0.3s ease, transform 0.3s ease;
+}
+
+.beacon-tl { top: 4px; left: 4px; }
+.beacon-tr { top: 4px; right: 4px; }
+.beacon-bl { bottom: 4px; left: 4px; }
+.beacon-br { bottom: 4px; right: 4px; }
+
+.corner-beacon.is-active {
+  background: var(--gold);
+  box-shadow: 0 0 12px rgba(255, 209, 102, 0.9);
+  transform: scale(1.35);
+}
+
+.pulse-ring {
+  position: relative;
+  width: 104px;
+  height: 104px;
+  border-radius: 50%;
+  border: 2px solid rgba(230, 57, 70, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  animation: pulse 2.2s infinite;
+}
+
+.radar-sweep {
+  position: absolute;
+  inset: 0;
+  background: conic-gradient(from 0deg, rgba(230, 57, 70, 0.28), transparent 45%);
+  animation: spin 3.2s linear infinite;
+}
+
+.lock-suit {
+  position: relative;
+  font-size: 2.5rem;
+  color: var(--accent);
+}
+
+.locked-title {
+  margin: 0;
+  font-size: 1.3rem;
+  font-weight: 700;
+}
+
+.locked-sub {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.9rem;
+  max-width: 290px;
+  line-height: 1.42;
+}
+
+.bio-metrics-card {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  background: var(--surface);
+  border: 1px solid var(--border-subtle);
+  border-radius: 16px;
+  padding: 12px 20px;
+}
+
+.bio-metric {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+}
+
+.bio-label {
+  font-size: 0.66rem;
+  letter-spacing: 0.1em;
+  color: var(--muted);
+}
+
+.bio-value {
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 1.08rem;
+  color: var(--gold);
+}
+
+.bio-divider {
+  width: 1px;
+  height: 28px;
+  background: var(--border-subtle);
+}
+
+/* Alt Bar */
+.bottom-bar {
+  text-align: center;
+  padding: 6px 0 2px;
+}
+
+.session-tag {
+  background: transparent;
+  border: none;
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 0.72rem;
+  letter-spacing: 0.12em;
+  color: rgba(255, 255, 255, 0.28);
+  cursor: pointer;
+  padding: 4px 10px;
+}
+
+/* Gizli Kontrol Paneli */
+.secret-modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.82);
+  backdrop-filter: blur(8px);
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  z-index: 100;
+  padding: 12px;
+}
+
+.secret-sheet {
+  width: 100%;
+  max-width: 480px;
+  max-height: 88dvh;
+  background: #14141c;
+  border: 1px solid var(--border-subtle);
+  border-radius: 22px;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.secret-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.secret-header h3 {
+  margin: 0;
+  font-size: 1.05rem;
+}
+
+.close-x {
+  background: none;
+  border: none;
+  color: var(--muted);
+  font-size: 1.7rem;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.secret-scroll {
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  padding-right: 2px;
+}
+
+.secret-section {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.section-label {
+  display: block;
+  font-size: 0.74rem;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.mode-toggle {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 6px;
+}
+
+.mode-toggle.three-col {
+  grid-template-columns: 1fr 1fr 1fr;
+}
+
+.mode-btn {
+  background: var(--surface-2);
+  color: var(--muted);
+  border: 1px solid var(--border-subtle);
+  border-radius: 11px;
+  padding: 10px 6px;
+  font-size: 0.82rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.mode-btn.active {
+  background: rgba(230, 57, 70, 0.2);
+  color: var(--text);
+  border-color: var(--accent);
+}
+
+.two-col-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+
+.switch-card {
+  background: var(--surface-2);
+  border: 1px solid var(--border-subtle);
+  border-radius: 12px;
+  padding: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  cursor: pointer;
+}
+
+.switch-text {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.switch-text strong {
+  font-size: 0.78rem;
+}
+
+.switch-text small {
+  font-size: 0.68rem;
+  color: var(--muted);
+}
+
+.preset-row {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 6px;
+}
+
+.preset-btn {
+  background: rgba(255, 209, 102, 0.1);
+  color: var(--gold);
+  border: 1px solid rgba(255, 209, 102, 0.3);
+  border-radius: 9px;
+  padding: 7px 4px;
+  font-size: 0.74rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.force-touch-picker {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.selected-force-banner {
+  font-size: 0.84rem;
+  color: var(--muted);
+  text-align: right;
+}
+
+.selected-force-banner strong {
+  color: var(--gold);
+}
+
+select {
+  background: var(--surface-2);
+  color: var(--text);
+  border: 1px solid var(--border-subtle);
+  border-radius: 10px;
+  padding: 10px;
+  font-size: 0.9rem;
+}
+
+.peek-guide {
+  margin: 0;
+  font-size: 0.78rem;
+  line-height: 1.48;
+  color: var(--muted);
+  background: rgba(255, 255, 255, 0.03);
+  padding: 10px 12px;
+  border-radius: 12px;
+}
+
+.peek-guide code {
+  color: var(--gold);
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(6px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes pulse {
+  0% { box-shadow: 0 0 0 0 rgba(230, 57, 70, 0.45); }
+  70% { box-shadow: 0 0 0 18px rgba(230, 57, 70, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(230, 57, 70, 0); }
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}

@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <defs>
+    <radialGradient id="bgGrad" cx="50%" cy="35%" r="70%">
+      <stop offset="0%" stop-color="#1e1624" />
+      <stop offset="100%" stop-color="#08080c" />
+    </radialGradient>
+    <linearGradient id="goldGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#ffe49e" />
+      <stop offset="50%" stop-color="#ffd166" />
+      <stop offset="100%" stop-color="#b88b32" />
+    </linearGradient>
+    <linearGradient id="crimsonGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#ff4d5d" />
+      <stop offset="100%" stop-color="#b91c2b" />
+    </linearGradient>
+  </defs>
+  <rect width="512" height="512" rx="112" fill="url(#bgGrad)" />
+  <rect x="28" y="28" width="456" height="456" rx="88" fill="none" stroke="url(#goldGrad)" stroke-width="6" stroke-opacity="0.7" />
+  <rect x="48" y="48" width="416" height="416" rx="70" fill="none" stroke="#e63946" stroke-width="2.5" stroke-dasharray="10 10" stroke-opacity="0.55" />
+  <circle cx="256" cy="256" r="126" fill="#101018" stroke="url(#goldGrad)" stroke-width="4" />
+  <path d="M256 154 C256 154 176 226 176 274 C176 304 200 322 224 322 C238 322 248 314 252 304 C250 324 242 342 226 354 L286 354 C270 342 262 324 260 304 C264 314 274 322 288 322 C312 322 336 304 336 274 C336 226 256 154 256 154 Z" fill="url(#goldGrad)" />
+  <circle cx="256" cy="256" r="16" fill="url(#crimsonGrad)" />
+</svg>
